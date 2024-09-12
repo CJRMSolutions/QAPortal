@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acquisition Evaluation Form</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            background: linear-gradient(to right, #41495b, #182848);
+            color: white;
+        }
+
+        .top-bar {
+            background-color: #949292;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .sign-out {
+            background-color: #ffc300;
+            color: #182848;
+            border: 1px solid #ffc300;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-weight: bold;
+        }
+
+        .sign-out:hover {
+            background-color: #ff5733;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 40px;
+            border-radius: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            color: #333333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4b6cb7;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .top-buttons button {
+            margin: 10px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit {
+            background-color: #ff5733;
+        }
+
+        .submit:hover {
+            background-color: #c70039;
+            transform: scale(1.05);
+        }
+
+        .reset {
+            background-color: #900c3f;
+        }
+
+        .reset:hover {
+            background-color: #581845;
+            transform: scale(1.05);
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-table td {
+            padding: 15px;
+            vertical-align: middle;
+            border: 1px solid #4b6cb7;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        .evaluation-table th {
+            background-color: #ff5733;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .evaluation-table td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .evaluation-table tr:nth-child(even) {
+            background-color: #f0f4f8;
+        }
+
+        .evaluation-table tr:hover {
+            background-color: #ffc300;
+        }
+
+        .final-grade p {
+            margin: 0;
+            padding: 15px;
+            border: 2px solid #ff5733;
+            background-color: #ff5733;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="welcome">Welcome, User! – Monday, July 8, 2024 at 11:15:48 PM</div>
+        <button class="sign-out">Sign-Out</button>
+    </div>
+    <div class="container">
+        <h1><img src="NOLogo.png" alt="Logo"> Customer Acquisition Scorecard</h1>
+
+        <form id="ticketForm" onsubmit="submitForm(event)">
+            <table class="info-table">
+                <tr>
+                    <td><strong>Audit Type:</strong></td>
+                    <td>
+                        <select id="auditType">
+                            <option value="Regular">Regular</option>
+                            <option value="Grace Period" selected>Grace Period</option>
+                            <option value="Store Complaint">Store Complaint</option>
+                            <option value="OTW">OTW</option>
+                            <option value="Duplicated">Duplicated</option>
+                        </select>
+                    </td>
+                    <td><strong>Supervisor:</strong></td>
+                    <td><input type="text" id="supervisor" readonly></td>
+                </tr>
+                <tr>
+                    <td><strong>SID:</strong></td>
+                    <td>
+                        <select id="sid" name="sid" required onchange="populateAgentDetails()">
+                            <option value="SID2024">SID2024</option>
+                            <option value="SID2139" selected>SID2139</option>
+                        </select>
+                    </td>
+                    <td><strong>Auditor:</strong></td>
+                    <td>
+                        <select id="auditor" required>
+                            <option value="Auditor 1">Auditor 1</option>
+                            <option value="Auditor 2">Auditor 2</option>
+                            <option value="Auditor 3">Auditor 3</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="evaluation-table">
+                <thead>
+                    <tr>
+                        <th>Score</th>
+                        <th>Points Earned</th>
+                        <th>Weight</th>
+                        <th>Quality - Sales Performance Measurements</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Opening / Closure Skills -->
+                    <tr>
+                        <td colspan="4"><strong>Opening / Closure Skills</strong> (Weight: 10)</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">5</td>
+                        <td>Sub behavior 1</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">5</td>
+                        <td>Sub behavior 2</td>
+                    </tr>
+
+                    <!-- Soft Skills -->
+                    <tr>
+                        <td colspan="4"><strong>Soft Skills</strong> (Weight: 15)</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">3</td>
+                        <td>Sub behavior 3</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">3</td>
+                        <td>Sub behavior 4</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">3</td>
+                        <td>Sub behavior 5</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">3</td>
+                        <td>Sub behavior 6</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">3</td>
+                        <td>Sub behavior 7</td>
+                    </tr>
+
+                    <!-- Subject Matter Expertise -->
+                    <tr>
+                        <td colspan="4"><strong>Subject Matter Expertise</strong> (Weight: 35)</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">10</td>
+                        <td>Sub behavior 8</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">10</td>
+                        <td>Sub behavior 9</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">15</td>
+                        <td>Sub behavior 10</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&emsp;Sub behavior 10.1</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&emsp;Sub behavior 10.2</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&emsp;Sub behavior 10.3</td>
+                    </tr>
+
+                    <!-- Sales Expertise Skills -->
+                    <tr>
+                        <td colspan="4"><strong>Sales Expertise Skills</strong> (Weight: 30)</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">5</td>
+                        <td>Sub behavior 12</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">10</td>
+                        <td>Sub behavior 13</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="score" onchange="updateScores(this)">
+                                <option value="Y">Y</option>
+                                <option value="N">N</option>
+                            </select>
+                        </td>
+                        <td class="points-earned">0</td>
+                        <td class="weight">10</td>
+                        <td>Sub behavior 14</td>
+                    </tr>
+
+                    <!-- Auto Fails -->
+                    <tr>
+                        <td colspan="4"><strong>Auto Fails</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Sub behavior 16</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Sub behavior 17</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Sub behavior 18</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Sub behavior 19</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Sub behavior 20</td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td><strong>Grade</strong></td>
+                        <td><strong>100</strong></td>
+                        <td><strong id="totalPoints">0</strong></td>
+                        <td><strong id="finalScore">0.00%</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><strong>Call Outcome</strong></td>
+                        <td colspan="2">
+                            <select id="callOutcome">
+                                <option value="Completed">Completed</option>
+                                <option value="Escalated">Escalated</option>
+                                <option value="Incomplete">Incomplete</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="top-buttons">
+                <button type="submit" class="submit">Submit</button>
+                <button type="reset" class="reset">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function updateScores(element) {
+            // Your score calculation logic
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            // Your form submission logic
+        }
+
+        function populateAgentDetails() {
+            // Your agent details population logic
+        }
+    </script>
+</body>
+</html>
+
